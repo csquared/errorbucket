@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;  charset=iso-8859-1" />
+  <meta name="description" content="An minimal site format" />
+  <meta name="keywords" content="blog" />
+  <link rel="stylesheet" type="text/css" href="/static/style.css" media="all" />  
+  <title>ErrorBucket</title>
+</head>
+
+<body>
+<div id="container">
+  <div id="header"><h1><a href="/">ErrorBucket</a></h1></div>
+
+  <div id="wrapper">
+    <div id="navigation">
+      {% block navigation %}
+        <ul style="text-align: right;">
+          {% if user %}
+            <li><a href="/bucket">My Bucket</a></li>
+            <li style="float: right; padding-right: 15px;">
+              <a href="{{ logout_url }}">Log out {{ user.nickname }}</a>
+            </li>
+          {% else %}
+            <li style="float: right; padding-right: 15px;">
+              <a href="{{ login_url }}">Sign in or register</a>
+            </li>
+          {% endif %}
+        </ul>
+      {% endblock %}
+    </div>
+
+    <div id="content-wrapper">
+      <div id="content">
+        {% block content %}
+          <h3>Remote Error Logging</h3>
+          <p>
+            Log in and get an API key. Then use ErrorBucket's REST API to log errors from any application.
+          </p>
+        {% endblock %}
+      </div>
+    </div>
+
+    <div id="sidebar-wrapper">
+      <div id="sidebar">
+        {% block sidebar %}
+          Use your Google Account to get started!
+        {% endblock %}
+      </div> 
+    </div>
+
+    <div id="footer" style="font-size: smaller;">Design from <a href="http://csstemplatesfree.net/2column/209-template-minimal.html">csstemplatesfree.net</a></div>
+
+  </div>
+
+</div>
+</body>
+
+</html>
+
