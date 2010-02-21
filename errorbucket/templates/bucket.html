@@ -2,21 +2,26 @@
 
 {% block content %}
   <h3>{{ bucket.name|title }} Errors</h3>
-<pre>
-RestClient.post "http://{{ request.META.HTTP_HOST }}/buckets/{{ bucket.key.name }}", { \
-  :secret_key => '{{ bucket.secret_key }}', \
-  :message => 'An error occurred...' \
-}, :accept => :json
-</pre>
   <table id="errors">
     {% if errors %}
       {% for error in errors %}
-        <tr><td>{{ error.message }}</td></tr>
+        <tr><td width="150">{{ error.created_at|timesince }} ago<td>{{ error.message }}</td></tr>
       {% endfor %}
     {% else %}
       <tr><td><i>None</i></td></tr>
     {% endif %}
   </table>
-{% endblock %}
 
-{% block bucketform %}{% endblock %}
+  <hr />
+
+  <pre class="code">
+RestClient.post "http://{{ request.META.HTTP_HOST }}/buckets/{{ bucket.key.name }}", { \
+  :secret_key => '{{ bucket.secret_key }}', \
+  :message => 'An error occurred...' \
+}, :accept => :json</pre>
+  <form id="post_error" action="/buckets/{{ bucket.key.name }}" method="POST">
+    <textarea name="message" rows="4" cols="64">An error occurred...</textarea>
+    <div><input type="text" name="secret_key" value="{{ bucket.secret_key }}" size="55" /><input type="submit" value="POST"></div>
+  </form>
+  <br style="clear: both"/>
+{% endblock %}
