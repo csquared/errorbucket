@@ -5,7 +5,7 @@ from django.utils import simplejson
 class Bucket(db.Model):
   user = db.UserProperty()
   secret_key = db.StringProperty(required=True)
-  created_at = db.DateProperty()
+  created_at = db.DateTimeProperty(auto_now_add=True)
 
   @classmethod
   def create(cls, user=None):
