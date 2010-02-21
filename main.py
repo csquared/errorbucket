@@ -2,7 +2,6 @@
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'errorbucket.settings'
 
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 import django.core.handlers.wsgi
   
