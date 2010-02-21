@@ -28,10 +28,26 @@ class BucketHandler(RequestHandler):
       self.response.content = '401 - unauthorized'
       return self.response
       
-    Error(bucket=bucket, message=self.request.POST['message']).put()
+    Error(bucket=bucket, message=request.POST['message']).put()
     if self.format() == 'json':
       return HttpResponse(simplejson.dumps({'success': True}), mimetype='application/json')
     return HttpResponseRedirect('/bucket')
     
+  def delete(self, request, key_name):
+    bucket = Bucket.get_by_key_name(key_name)
+    if not bucket:
+      self.response.status_code = '404'
+      self.response.content = '404 - not found'
+      return self.response
+
+    if bucket.user != users.get_current_user():
+      self.response.status_code = '401'
+      self.response.content = '401 - unauthorized'
+      return self.response
+
+    error = Error.get(db.Key(request.GET['key']))
+    error.delete()
+    return HttpResponseRedirect('/bucket')
+
 class BucketsHandler(RequestHandler):
   pass

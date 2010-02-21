@@ -5,6 +5,8 @@ ul.errorlist { margin: 0; padding: 0; list-style-type: none; color: red; }
 table#errors { border: 1px solid #AAA; width: 750px;}
 pre.code { background: #000; color: #FFF; width: 370px; height: 500; margin: 0; padding: 7px 2px; font-size: 10px; float: left; }
 form#post_error { float: left; width: 370px; margin-left: 5px; }
+a.delete { color: red !important; font-size: smaller; }
+
 /* minimal */
 
 body 

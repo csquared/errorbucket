@@ -19,6 +19,8 @@ class RequestHandler(object):
     self.request = request
     self.response = HttpResponse()
     method = request.META['REQUEST_METHOD'].lower()
+    if request.GET.has_key('method'):
+      method = request.GET['method']
     handler = getattr(self, method, None)
     if handler is None:
       self.response.status_code = '405'

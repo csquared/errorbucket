@@ -5,7 +5,11 @@
   <table id="errors">
     {% if errors %}
       {% for error in errors %}
-        <tr><td width="150">{{ error.created_at|timesince }} ago<td>{{ error.message }}</td></tr>
+        <tr>
+          <td width="10"><a href="/buckets/{{ bucket.key.name }}?method=delete&key={{ error.key }}" class="delete" onclick="return confirm('Are you sure you want to delete?');">x</a></td>
+          <td width="150">{{ error.created_at|timesince }} ago</td>
+          <td>{{ error.message }}</td>
+        </tr>
       {% endfor %}
     {% else %}
       <tr><td><i>None</i></td></tr>
