@@ -12,7 +12,7 @@ class UserBucketHandler(RequestHandler):
     bucket = db.GqlQuery("SELECT * FROM Bucket WHERE user = :1", user).get()
     if not bucket:
       bucket = Bucket.create(user=user)
-    errors = bucket.error_set.fetch(30)
+    errors = bucket.error_set.order('-created_at').fetch(30)
     return render_to_response('bucket.html', gae_processor(request, locals()))
     
 class BucketHandler(RequestHandler):
@@ -23,7 +23,7 @@ class BucketHandler(RequestHandler):
       self.response.content = '404 - not found'
       return self.response
       
-    errors = [error.to_dict() for error in bucket.error_set.fetch(30)]
+    errors = [error.to_dict() for error in bucket.error_set.order('-created_at').fetch(30)]
     
     if self.format() == 'json':
       return HttpResponse(simplejson.dumps(errors), mimetype='application/json')
