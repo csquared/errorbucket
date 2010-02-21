@@ -16,20 +16,6 @@ class UserBucketHandler(RequestHandler):
     return render_to_response('bucket.html', gae_processor(request, locals()))
     
 class BucketHandler(RequestHandler):
-  def get(self, request, key_name):
-    bucket = Bucket.get_by_key_name(key_name)
-    if not bucket:
-      self.response.status_code = '404'
-      self.response.content = '404 - not found'
-      return self.response
-      
-    errors = [error.to_dict() for error in bucket.error_set.order('-created_at').fetch(30)]
-    
-    if self.format() == 'json':
-      return HttpResponse(simplejson.dumps(errors), mimetype='application/json')
-
-    return render_to_response('bucket.html', gae_processor(request, locals()))
-
   def post(self, request, key_name):
     bucket = Bucket.get_by_key_name(key_name)
     if not bucket:

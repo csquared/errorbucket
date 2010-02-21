@@ -21,7 +21,9 @@ class RequestHandler(object):
     method = request.META['REQUEST_METHOD'].lower()
     handler = getattr(self, method, None)
     if handler is None:
-      raise Exception('%s method not defined' % method)
+      self.response.status_code = '405'
+      self.response.content = '405 - not allowed'
+      return self.response
     return handler(request, *args, **kwargs)
     
   def format(self):
