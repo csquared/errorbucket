@@ -32,5 +32,5 @@ class Error(db.Model):
   def to_dict(self):
     return {
       'message': self.message,
-      'created_at': str(self.created_at),
+      'created_at': self.created_at,
     }

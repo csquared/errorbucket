@@ -1,9 +1,10 @@
 from django.utils import simplejson
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
+from google.appengine.api import users
 from google.appengine.ext import db
 from errorbucket.buckets.models import Bucket, Error
-from errorbucket.util import RequestHandler
+from errorbucket.util import RequestHandler, gae_processor
   
 class UserBucketHandler(RequestHandler):
   def get(self, request):
@@ -45,3 +46,6 @@ class BucketHandler(RequestHandler):
     if self.format() == 'json':
       return HttpResponse(simplejson.dumps({'success': True}), mimetype='application/json')
     return HttpResponseRedirect('/bucket')
+    
+class BucketsHandler(RequestHandler):
+  pass

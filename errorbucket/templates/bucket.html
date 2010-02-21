@@ -1,4 +1,4 @@
-{% extends 'buckets.html' %}
+{% extends 'index.html' %}
 
 {% block content %}
   <h3>{{ bucket.name|title }} Errors</h3>
@@ -12,8 +12,7 @@
     {% endif %}
   </table>
 
-  <hr />
-
+  <br />
   <pre class="code">
 RestClient.post "http://{{ request.META.HTTP_HOST }}/buckets/{{ bucket.key.name }}", { \
   :secret_key => '{{ bucket.secret_key }}', \
