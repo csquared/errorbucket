@@ -14,13 +14,19 @@
 
   <br />
   <pre class="code">
-RestClient.post "http://{{ request.META.HTTP_HOST }}/buckets/{{ bucket.key.name }}", { \
-  :secret_key => '{{ bucket.secret_key }}', \
-  :message => 'An error occurred...' \
-}, :accept => :json</pre>
+RestClient.post(
+  "http://{{ request.META.HTTP_HOST }}/buckets/{{ bucket.key.name }}",
+  {
+    :message => 'An error occurred...',
+    :secret_key => '{{ bucket.secret_key }}'
+  },
+  :accept => :json
+)</pre>
   <form id="post_error" action="/buckets/{{ bucket.key.name }}" method="POST">
-    <textarea name="message" rows="4" cols="64">An error occurred...</textarea>
-    <div><input type="text" name="secret_key" value="{{ bucket.secret_key }}" size="55" /><input type="submit" value="POST"></div>
+    <div>message:</div>
+    <textarea name="message" rows="7" cols="64">An error occurred...</textarea>
+    <div>secret_key:</div>
+    <input type="text" name="secret_key" value="{{ bucket.secret_key }}" size="55" /><input type="submit" value="POST">
   </form>
   <br style="clear: both"/>
 {% endblock %}
