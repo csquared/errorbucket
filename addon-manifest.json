@@ -1,0 +1,20 @@
+{
+  "name": "myaddon",
+  "plans": [
+    {
+      "price": "0",
+      "name": "Basic",
+      "price_unit": "month"
+    }
+  ],
+  "api": {
+    "config_vars": [
+      "ERRORBUCKET_URL",
+      "ERRORBUCKET_SECRET_KEY"
+    ],
+    "production": "https://errorbucket.appspot.com/",
+    "test": "http://localhost:8080/",
+    "username": "heroku",
+    "password": "cf6d0d056bb08b03"
+  }
+}
