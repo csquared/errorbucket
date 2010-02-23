@@ -30,7 +30,7 @@ class BucketHandler(RequestHandler):
       
     Error(bucket=bucket, message=request.POST['message']).put()
     if self.format() == 'json':
-      return HttpResponse(simplejson.dumps({'success': True}), mimetype='application/json')
+      return HttpResponse(simplejson.dumps({'result': True}), mimetype='application/json')
     return HttpResponseRedirect('/bucket')
     
   def delete(self, request, key_name):
