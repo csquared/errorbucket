@@ -11,6 +11,7 @@ handlers:
   upload: static/favicon.ico
 - url: /heroku.*
   script: heroku/main.py
+  secure: always
 - url: /bucket
   script: main.py
   login: required

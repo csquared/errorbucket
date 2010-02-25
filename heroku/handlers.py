@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 from django.utils import simplejson
-from decorators import http_auth_required
+from auth import http_auth_required
 from errorbucket.buckets.models import Bucket
 
 CREDENTIALS = {'heroku': 'cf6d0d056bb08b03'}
@@ -11,8 +11,7 @@ class ResourcesHandler(webapp.RequestHandler):
     bucket = Bucket.create()
     result = { 'id': bucket.key().name(),
       'config': { 
-        'ERRORBUCKET_URL': "http://%s/buckets/%s" % (self.request.headers['HOST'], bucket.key().name()),
-        'ERRORBUCKET_SECRET_KEY': bucket.secret_key
+        'ERRORBUCKET_URL': "http://%s@%s/buckets/%s" % (bucket.secret_key, self.request.headers['HOST'], bucket.key().name()),
       }
     }
     self.response.out.write(simplejson.dumps(result))

@@ -80,7 +80,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'errorbucket.buckets',
-    'errorbucket.heroku',
 )
 
 APPEND_SLASH = False

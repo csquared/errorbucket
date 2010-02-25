@@ -4,7 +4,8 @@ from google.appengine.ext.webapp import Response
 class http_auth_required(object):
   """
   A decorator to handle basic HTTP authentication. Takes a dictionary of
-  username: password pairs to authenticate against.
+  username: password pairs to authenticate against. Only usable for a GAE
+  handler.
   """
   def __init__(self, credentials):
     self.credentials = credentials
@@ -29,8 +30,8 @@ def parse_auth(request):
   except AttributeError:
     authorization = request.META['HTTP_AUTHORIZATION'] # django request
 
-    auth = authorization.split()
-    if len(auth) == 2 and auth[0].lower() == 'basic':
-        username, password = base64.b64decode(auth[1]).split(':')
-        return username, password
+  auth = authorization.split()
+  if len(auth) == 2 and auth[0].lower() == 'basic':
+      username, password = base64.b64decode(auth[1]).split(':')
+      return username, password
   return None, None
