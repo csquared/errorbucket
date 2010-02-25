@@ -11,7 +11,7 @@ class ResourcesHandler(webapp.RequestHandler):
     bucket = Bucket.create()
     result = { 'id': bucket.key().name(),
       'config': { 
-        'ERRORBUCKET_URL': "http://%s@%s/buckets/%s" % (bucket.secret_key, self.request.headers['HOST'], bucket.key().name()),
+        'ERRORBUCKET_URL': "http://:%s@%s/errors" % (bucket.secret_key, self.request.headers['HOST']),
       }
     }
     self.response.out.write(simplejson.dumps(result))
