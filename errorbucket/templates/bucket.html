@@ -6,7 +6,7 @@
     {% if errors %}
       {% for error in errors %}
         <tr>
-          <td width="10"><a href="/buckets/{{ bucket.key.name }}?method=delete&key={{ error.key }}" class="delete" onclick="return confirm('Are you sure you want to delete?');">x</a></td>
+          <td width="10"><a href="/errors/{{ error.key }}?method=delete" class="delete" onclick="return confirm('Are you sure you want to delete?');">x</a></td>
           <td width="150">{{ error.created_at|timesince }} ago</td>
           <td>{{ error.message }}</td>
         </tr>
@@ -20,18 +20,16 @@
   <h3>API Usage</h3>
   <pre class="code">
 RestClient.post(
-  'http://{{ request.META.HTTP_HOST }}/buckets/{{ bucket.key.name }}',
-  {
-    :message => 'An error occurred...',
-    :secret_key => '{{ bucket.secret_key }}'
-  },
+  'https://:{{ bucket.secret_key }}@{{ request.META.HTTP_HOST }}/errors', 
+  'An exception occurred...',
+  :content_type => 'text/plain',
   :accept => :json
 )</pre>
-  <form id="post_error" action="/buckets/{{ bucket.key.name }}" method="POST">
+  <form id="post_error" action="http://:{{ bucket.secret_key }}@{{ request.META.HTTP_HOST }}/errors" method="POST">
     <div>message:</div>
-    <textarea name="message" rows="7" cols="64">An error occurred...</textarea>
-    <div>secret_key:</div>
-    <input type="text" name="secret_key" value="{{ bucket.secret_key }}" size="55" /><input type="submit" value="POST">
+    <textarea name="message" rows="5" cols="64">An error occurred...</textarea>
+    Content-Type: application/x-www-form-urlencoded&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="POST">
   </form>
   <br style="clear: both"/>
 {% endblock %}

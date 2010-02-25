@@ -5,6 +5,7 @@ from google.appengine.api import users
 from google.appengine.ext import db
 from errorbucket.buckets.models import Bucket, Error
 from errorbucket.util import RequestHandler, gae_processor
+from auth import parse_auth
   
 class UserBucketHandler(RequestHandler):
   def get(self, request):
@@ -15,39 +16,44 @@ class UserBucketHandler(RequestHandler):
     errors = bucket.error_set.order('-created_at').fetch(30)
     return render_to_response('bucket.html', gae_processor(request, locals()))
     
-class BucketHandler(RequestHandler):
-  def post(self, request, key_name):
-    bucket = Bucket.get_by_key_name(key_name)
+class ErrorHandler(RequestHandler):
+  def post(self, request):
+    user = users.get_current_user()
+    bucket = db.GqlQuery("SELECT * FROM Bucket WHERE user = :1", user).get()
+
     if not bucket:
-      self.response.status_code = '404'
-      self.response.content = '404 - not found'
-      return self.response
-    
-    if not request.POST.has_key('secret_key') or request.POST['secret_key'] != bucket.secret_key:
+      username, password = parse_auth(self.request)
+      bucket = db.GqlQuery("SELECT * FROM Bucket WHERE secret_key = :1", password).get()
+
+    if not bucket:
       self.response.status_code = '401'
       self.response.content = '401 - unauthorized'
       return self.response
-      
-    Error(bucket=bucket, message=request.POST['message']).put()
+
+    if self.request.META['CONTENT_TYPE'] == 'application/x-www-form-urlencoded':
+      message = self.request.POST['message']
+    else:
+      message = self.request.raw_post_data
+    Error(bucket=bucket, message=message).put()
+
     if self.format() == 'json':
       return HttpResponse(simplejson.dumps({'result': True}), mimetype='application/json')
     return HttpResponseRedirect('/bucket')
     
-  def delete(self, request, key_name):
-    bucket = Bucket.get_by_key_name(key_name)
+  def delete(self, request, key):
+    error = Error.get(db.Key(key))
+    
+    user = users.get_current_user()
+    bucket = db.GqlQuery("SELECT * FROM Bucket WHERE user = :1", user).get()
+    
     if not bucket:
-      self.response.status_code = '404'
-      self.response.content = '404 - not found'
-      return self.response
+      username, password = parse_auth(self.request)
+      bucket = db.GqlQuery("SELECT * FROM Bucket WHERE secret_key = :1", password).get()
 
-    if bucket.user != users.get_current_user():
+    if not bucket or (error.bucket.key() != bucket.key()):
       self.response.status_code = '401'
       self.response.content = '401 - unauthorized'
       return self.response
 
-    error = Error.get(db.Key(request.GET['key']))
     error.delete()
     return HttpResponseRedirect('/bucket')
-
-class BucketsHandler(RequestHandler):
-  pass

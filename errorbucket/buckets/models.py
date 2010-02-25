@@ -9,8 +9,9 @@ class Bucket(db.Model):
 
   @classmethod
   def create(cls, user=None):
-    key_name = str(uuid4()).split("-")[0]
-    secret_key = str(uuid4())
+    randomness = str(uuid4()).split("-")
+    key_name = randomness[0]
+    secret_key = randomness[-1]
     bucket = Bucket(key_name=key_name, user=user, secret_key=secret_key)
     bucket.put()
     return bucket
