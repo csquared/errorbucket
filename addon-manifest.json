@@ -1,19 +1,9 @@
 {
-  "name": "myaddon",
-  "plans": [
-    {
-      "price": "0",
-      "name": "Basic",
-      "price_unit": "month"
-    }
-  ],
+  "id": "errorbucket",
   "api": {
-    "config_vars": [
-      "ERRORBUCKET_URL"
-    ],
+    "config_vars": ["ERRORBUCKET_URL"],
     "production": "https://errorbucket.appspot.com/",
     "test": "http://localhost:8080/",
-    "username": "heroku",
     "password": "cf6d0d056bb08b03"
   }
 }
