@@ -2,7 +2,7 @@
 
 This app is an example <a href="http://addons.heroku.com">Heroku Add-On</a>.
 
-There is an [example consumer in Ruby](blob/master/use_errorbucket.rb).
+There is an [example consumer in Ruby](https://github.com/nzoschke/errorbucket/blob/master/use_errorbucket.rb).
 
 ## Installation
 
