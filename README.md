@@ -2,6 +2,8 @@
 
 This app is an example <a href="http://addons.heroku.com">Heroku Add-On</a>.
 
+There is an [example consumer in Ruby](blob/master/use_errorbucket.rb).
+
 ## Installation
 
   1) Download and install Google app engine SDK
